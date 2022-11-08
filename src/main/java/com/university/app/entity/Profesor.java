@@ -1,4 +1,4 @@
-package com.university.app.model.entity;
+package com.university.app.entity;
 
 import lombok.Getter;
 import lombok.Setter;

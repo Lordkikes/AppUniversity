@@ -1,4 +1,4 @@
-package com.university.app.model.entity;
+package com.university.app.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,26 +10,30 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "carreras")
-public class Carrera implements Serializable {
+@Table(name = "pabellones")
+public class Pabellon implements Serializable {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nombre_carrera", nullable = false, unique = true, length = 80)
-    private String nombreCarrera;
+    @Column(name = "metros_cuadrados")
+    private Double mts2;
 
-    @Column(name = "cantidad_materias")
-    private Integer cantidadMaterias;
+    @Column(name = "nombre_pabellon", unique = true, nullable = false)
+    private String nombrePabellon;
 
-    @Column(name = "cantidad_anios")
-    private Integer cantidadAnios;
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "codigoPostal", column = @Column(name = "codigo_postal")),
+            @AttributeOverride(name = "dpto", column = @Column(name = "departamento"))
+    })
+    private Direccion direccion;
 
     @Column(name = "fecha_alta")
     private LocalDateTime fechaAlta;
@@ -38,16 +42,10 @@ public class Carrera implements Serializable {
     private LocalDateTime fechaModificacion;
 
     @OneToMany(
-            mappedBy = "carrera",
+            mappedBy = "pabellon",
             fetch = FetchType.LAZY
     )
-    private Set<Alumno> alumnos;
-
-    @ManyToMany(
-            mappedBy = "carreras",
-            fetch = FetchType.LAZY
-    )
-    private Set<Profesor> profesores;
+    private Set<Aula> aulas;
 
     @PrePersist
     private void antesPersistir(){
@@ -55,20 +53,20 @@ public class Carrera implements Serializable {
     }
 
     @PreUpdate
-    private void despuesPersistir(){
+    private void despuesPersistir() {
         this.fechaModificacion = LocalDateTime.now();
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Carrera)) return false;
-        Carrera carrera = (Carrera) o;
-        return id.equals(carrera.id) && nombreCarrera.equals(carrera.nombreCarrera);
+        if (!(o instanceof Pabellon)) return false;
+        Pabellon pabellon = (Pabellon) o;
+        return id.equals(pabellon.id) && nombrePabellon.equals(pabellon.nombrePabellon);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombreCarrera);
+        return Objects.hash(id, nombrePabellon);
     }
 }
