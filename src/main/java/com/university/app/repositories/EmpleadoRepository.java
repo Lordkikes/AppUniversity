@@ -5,5 +5,5 @@ import com.university.app.enumeradores.TipoEmpleado;
 
 public interface EmpleadoRepository extends PersonaRepository{
 
-    Iterable<Persona> findEmpleadoByTipoEmpleado(TipoEmpleado tipoEmpleado);
+   // Iterable<Persona> findEmpleadoByTipoEmpleado(TipoEmpleado tipoEmpleado);
 }

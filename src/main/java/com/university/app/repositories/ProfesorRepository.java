@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface ProfesorRepository extends PersonaRepository{
 
-    Iterable<Persona> findProfesoresByCarrera(String carrera);
+   // Iterable<Persona> findProfesoresByCarrera(String carrera);
 }

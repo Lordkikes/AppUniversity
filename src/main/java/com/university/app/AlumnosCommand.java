@@ -49,10 +49,10 @@ public class AlumnosCommand implements CommandLineRunner {
         personasApel.forEach(System.out::println);*/
 
         //Optional<Persona> alumno_1 = personaService.findById(1);
-        Optional<Carrera> ingSistemas = carreraService.findById(2);
+       // Optional<Carrera> ingSistemas = carreraService.findById(2);
 
-        Iterable<Persona> alumnosCarrera = ((AlumnoService) personaService).buscarAlumnosPorNombreCarrera(ingSistemas.get().getNombre());
-        alumnosCarrera.forEach(System.out::println);
+       // Iterable<Persona> alumnosCarrera = ((AlumnoService) personaService).buscarAlumnosPorNombreCarrera(ingSistemas.get().getNombre());
+       // alumnosCarrera.forEach(System.out::println);
 
 
     }

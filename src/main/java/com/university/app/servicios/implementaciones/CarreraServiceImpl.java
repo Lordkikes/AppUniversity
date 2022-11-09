@@ -33,9 +33,11 @@ public class CarreraServiceImpl extends GenericServiceImpl<Carrera, CarreraRepos
         return repositroy.findCarrerasByCantidadAniosAfter(cantidadAnios);
     }
 
-    @Override
+   /* @Override
     @Transactional(readOnly = true)
     public Iterable<Carrera> buscarCarrerasPorProfesorNombreYApellido(String nombre, String apellido) {
         return repositroy.buscarCarrerasPorProfesorNombreYApellido(nombre, apellido);
     }
+
+    */
 }

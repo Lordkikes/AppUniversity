@@ -1,5 +1,6 @@
 package com.university.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,12 +42,14 @@ public class Carrera implements Serializable {
             mappedBy = "carrera",
             fetch = FetchType.LAZY
     )
+    @JsonIgnoreProperties({"carrera"})
     private Set<Alumno> alumnos;
 
     @ManyToMany(
             mappedBy = "carreras",
             fetch = FetchType.LAZY
     )
+    @JsonIgnoreProperties({"carreras"})
     private Set<Profesor> profesores;
 
     public Carrera(Integer id, String nombre, Integer cantidadMaterias, Integer cantidadAnios) {
