@@ -66,6 +66,19 @@ public class Carrera implements Serializable {
         this.fechaModificacion = LocalDateTime.now();
     }
 
+
+    @Override
+    public String toString() {
+        return "Carrera{" +
+                "id=" + id +
+                ", nombreCarrera='" + nombreCarrera + '\'' +
+                ", cantidadMaterias=" + cantidadMaterias +
+                ", cantidadAnios=" + cantidadAnios +
+                ", fechaAlta=" + fechaAlta +
+                ", fechaModificacion=" + fechaModificacion +
+                '}';
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
