@@ -1,7 +1,10 @@
 package com.university.app.controladores;
 
+import com.university.app.entity.Alumno;
+import com.university.app.entity.Carrera;
 import com.university.app.entity.Persona;
 import com.university.app.exception.BadRequestException;
+import com.university.app.servicios.CarreraService;
 import com.university.app.servicios.PersonaService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +18,11 @@ public class AlumnoController {
 
     private final PersonaService alumnoService;
 
-    public AlumnoController(@Qualifier("alumnoServiceImpl") PersonaService alumnoService) {
+    private final CarreraService carreraService;
+
+    public AlumnoController(@Qualifier("alumnoServiceImpl") PersonaService alumnoService, CarreraService carreraService) {
         this.alumnoService = alumnoService;
+        this.carreraService = carreraService;
     }
 
     @GetMapping("/all")
@@ -61,6 +67,24 @@ public class AlumnoController {
     @DeleteMapping("/eliminarAlumno/{id}")
     public void eliminarAlumno(@PathVariable Integer id){
         alumnoService.deleteById(id);
+    }
+
+    @PutMapping("{idAlumno}/carrera/{idCarrera}")
+    public Persona asgnarCarreraAlumno(@PathVariable Integer idAlumno, @PathVariable Integer idCarrera){
+        Optional<Persona> oAlumno = alumnoService.findById(idAlumno);
+        if(!oAlumno.isPresent()){
+            throw new BadRequestException(String.format("El alumno con id %d no existe", idAlumno));
+        }
+        Optional<Carrera> oCarrera = carreraService.findById(idCarrera);
+        if(!oCarrera.isPresent()){
+            throw new BadRequestException(String.format("Carrera con id %d no existe", idCarrera));
+        }
+        Persona alumno = oAlumno.get();
+        Carrera carrera = oCarrera.get();
+
+        ((Alumno)alumno).setCarrera(carrera);
+        return alumnoService.save(alumno);
+
     }
 
 
