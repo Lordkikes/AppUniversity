@@ -4,7 +4,6 @@ import com.university.app.entity.Persona;
 import com.university.app.exception.BadRequestException;
 import com.university.app.servicios.PersonaService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;

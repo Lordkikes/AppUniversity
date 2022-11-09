@@ -1,11 +1,13 @@
 package com.university.app.controladores;
 
 import com.university.app.entity.Carrera;
-import com.university.app.exception.BadRequestException;
 import com.university.app.servicios.CarreraService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -18,7 +20,7 @@ public class CarreraController extends GenericController<Carrera, CarreraService
         nombreEntidad = "Carrera";
     }
 
-    @GetMapping("/{id}")
+   /* @GetMapping("/{id}")
     public Carrera obtenerporId(@PathVariable(value = "id", required = false) Integer id){
         Optional<Carrera> oCarrera = service.findById(id);
         if(!oCarrera.isPresent()){
@@ -38,25 +40,36 @@ public class CarreraController extends GenericController<Carrera, CarreraService
         return service.save(nuevaCarrera);
     }
 
+    */
+
     @PutMapping("/updateCarrera/{id}")
-    public Carrera actualizarCarrera(@PathVariable Integer id, @RequestBody Carrera carrera){
+    public ResponseEntity<?> actualizarCarrera(@PathVariable Integer id, @RequestBody Carrera carrera){
+        Map<String, Object> mensaje = new HashMap<>();
         Carrera carreraUpdate = null;
         Optional<Carrera> oCarrera = service.findById(id);
+
         if(!oCarrera.isPresent()){
-            throw new BadRequestException(String.format("La Carrera con ID %d no existe", id));
+            //throw new BadRequestException(String.format("La Carrera con ID %d no existe", id));
+            mensaje.put("success", Boolean.FALSE);
+            mensaje.put("mensaje",String.format("%s con ID %d no existe ", nombreEntidad, id));
+            return ResponseEntity.badRequest().body(mensaje);
         }
         carreraUpdate = oCarrera.get();
         carreraUpdate.setCantidadAnios(carrera.getCantidadAnios());
         carreraUpdate.setCantidadMaterias(carrera.getCantidadMaterias());
 
-        return service.save(carreraUpdate);
+        mensaje.put("datos", service.save(carreraUpdate));
+        mensaje.put("success", Boolean.TRUE);
+
+        return ResponseEntity.ok(mensaje);
 
     }
 
-    @DeleteMapping("/deleteCarrera/{id}")
+  /*  @DeleteMapping("/deleteCarrera/{id}")
     public void eliminarCarrera(@PathVariable Integer id){
         service.deleteById(id);
     }
 
+   */
 
 }
