@@ -6,33 +6,21 @@ import com.university.app.servicios.CarreraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/carrera")
-public class CarreraController {
-
-    private final CarreraService carreraService;
-
+public class CarreraController extends GenericController<Carrera, CarreraService>{
 
     @Autowired
-    public CarreraController(CarreraService carreraService) {
-        this.carreraService = carreraService;
-    }
-
-    @GetMapping
-    public List<Carrera> obtenerTodos(){
-        List<Carrera> carreras = (List<Carrera>) carreraService.findAll();
-        if(carreras.isEmpty()){
-            throw new BadRequestException("No existen carreras");
-        }
-        return carreras;
+    public CarreraController(CarreraService service) {
+        super(service);
+        nombreEntidad = "Carrera";
     }
 
     @GetMapping("/{id}")
     public Carrera obtenerporId(@PathVariable(value = "id", required = false) Integer id){
-        Optional<Carrera> oCarrera = carreraService.findById(id);
+        Optional<Carrera> oCarrera = service.findById(id);
         if(!oCarrera.isPresent()){
             throw new BadRequestException(String.format("La Carrera con ID %d no existe", id));
         }
@@ -47,13 +35,13 @@ public class CarreraController {
         if(nuevaCarrera.getCantidadMaterias() < 0){
             throw new BadRequestException("La cantidad de materias no puede ser negativo");
         }
-        return carreraService.save(nuevaCarrera);
+        return service.save(nuevaCarrera);
     }
 
     @PutMapping("/updateCarrera/{id}")
     public Carrera actualizarCarrera(@PathVariable Integer id, @RequestBody Carrera carrera){
         Carrera carreraUpdate = null;
-        Optional<Carrera> oCarrera = carreraService.findById(id);
+        Optional<Carrera> oCarrera = service.findById(id);
         if(!oCarrera.isPresent()){
             throw new BadRequestException(String.format("La Carrera con ID %d no existe", id));
         }
@@ -61,13 +49,13 @@ public class CarreraController {
         carreraUpdate.setCantidadAnios(carrera.getCantidadAnios());
         carreraUpdate.setCantidadMaterias(carrera.getCantidadMaterias());
 
-        return carreraService.save(carreraUpdate);
+        return service.save(carreraUpdate);
 
     }
 
     @DeleteMapping("/deleteCarrera/{id}")
     public void eliminarCarrera(@PathVariable Integer id){
-        carreraService.deleteById(id);
+        service.deleteById(id);
     }
 
 
