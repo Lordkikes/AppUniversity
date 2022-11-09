@@ -23,7 +23,7 @@ public class Carrera implements Serializable {
     private Integer id;
 
     @Column(name = "nombre_carrera", nullable = false, unique = true, length = 80)
-    private String nombreCarrera;
+    private String nombre;
 
     @Column(name = "cantidad_materias")
     private Integer cantidadMaterias;
@@ -49,9 +49,9 @@ public class Carrera implements Serializable {
     )
     private Set<Profesor> profesores;
 
-    public Carrera(Integer id, String nombreCarrera, Integer cantidadMaterias, Integer cantidadAnios) {
+    public Carrera(Integer id, String nombre, Integer cantidadMaterias, Integer cantidadAnios) {
         this.id = id;
-        this.nombreCarrera = nombreCarrera;
+        this.nombre = nombre;
         this.cantidadMaterias = cantidadMaterias;
         this.cantidadAnios = cantidadAnios;
     }
@@ -71,7 +71,7 @@ public class Carrera implements Serializable {
     public String toString() {
         return "Carrera{" +
                 "id=" + id +
-                ", nombreCarrera='" + nombreCarrera + '\'' +
+                ", nombre='" + nombre + '\'' +
                 ", cantidadMaterias=" + cantidadMaterias +
                 ", cantidadAnios=" + cantidadAnios +
                 ", fechaAlta=" + fechaAlta +
@@ -84,11 +84,11 @@ public class Carrera implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Carrera)) return false;
         Carrera carrera = (Carrera) o;
-        return id.equals(carrera.id) && nombreCarrera.equals(carrera.nombreCarrera);
+        return id.equals(carrera.id) && nombre.equals(carrera.nombre);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombreCarrera);
+        return Objects.hash(id, nombre);
     }
 }
