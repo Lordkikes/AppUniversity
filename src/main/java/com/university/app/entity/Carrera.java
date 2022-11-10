@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -24,12 +27,16 @@ public class Carrera implements Serializable {
     private Integer id;
 
     @Column(name = "nombre_carrera", nullable = false, unique = true, length = 80)
+    @NotNull
+    @NotEmpty(message = "Debe ingresar un valor")
     private String nombre;
 
     @Column(name = "cantidad_materias")
+    @Positive(message = "El valor no puede ser negativo")
     private Integer cantidadMaterias;
 
     @Column(name = "cantidad_anios")
+    @Positive(message = "El valor no puede ser negativo")
     private Integer cantidadAnios;
 
     @Column(name = "fecha_alta")

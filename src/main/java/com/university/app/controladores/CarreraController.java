@@ -1,11 +1,14 @@
 package com.university.app.controladores;
 
 import com.university.app.entity.Carrera;
+import com.university.app.exception.BadRequestException;
 import com.university.app.servicios.CarreraService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -29,18 +32,28 @@ public class CarreraController extends GenericController<Carrera, CarreraService
         return oCarrera.get();
     }
 
+    */
+
     @PostMapping("/crearCarrera")
-    public Carrera crearCarrera(@RequestBody Carrera nuevaCarrera){
-        if(nuevaCarrera.getCantidadAnios() < 0){
+    public ResponseEntity<?> crearCarrera(@Valid @RequestBody Carrera nuevaCarrera, BindingResult result){
+       /* if(nuevaCarrera.getCantidadAnios() < 0){
             throw new BadRequestException("La cantidad de años no puede ser negativo");
         }
         if(nuevaCarrera.getCantidadMaterias() < 0){
             throw new BadRequestException("La cantidad de materias no puede ser negativo");
         }
-        return service.save(nuevaCarrera);
+        */
+        Map<String, Object> validaciones = new HashMap<>();
+
+        if (result.hasErrors()){
+            result.getFieldErrors()
+                    .forEach(error -> validaciones.put(error.getField(), error.getDefaultMessage()));
+            return ResponseEntity.badRequest().body(validaciones);
+        }
+
+        return ResponseEntity.ok(service.save(nuevaCarrera));
     }
 
-    */
 
     @PutMapping("/updateCarrera/{id}")
     public ResponseEntity<?> actualizarCarrera(@PathVariable Integer id, @RequestBody Carrera carrera){

@@ -1,6 +1,5 @@
 package com.university.app.controladores;
 
-import com.university.app.exception.BadRequestException;
 import com.university.app.servicios.GenericService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
